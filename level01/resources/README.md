@@ -51,7 +51,7 @@ echo "42hDRfypTqqnw" > flag01.passwd
 Use John the Ripper to crack it:
 
 ```bash
-john /tmp/flag01.passwd
+john flag01.passwd
 ```
 
 **Result:**
