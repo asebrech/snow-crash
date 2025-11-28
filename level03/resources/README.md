@@ -50,8 +50,6 @@ The binary calls `echo` using `/usr/bin/env`, which searches for `echo` in the *
 
 `/usr/bin/env` searches for commands in the **PATH** environment variable, which we can manipulate. This allows us to create our own malicious `echo` that will be executed instead.
 
-**Secure alternative:** The binary should use `/bin/echo` directly to avoid PATH hijacking.
-
 **Steps:**
 
 ```bash
