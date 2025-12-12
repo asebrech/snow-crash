@@ -20,6 +20,12 @@ ls -la
 
 A `.pcap` file is a **packet capture file** containing network traffic.
 
+The file has no read permissions for the owner. Add read permission:
+
+```bash
+chmod u+r level02.pcap
+```
+
 ---
 
 ## 2. Copy the file to local machine
