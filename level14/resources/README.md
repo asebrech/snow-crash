@@ -95,62 +95,35 @@ Level14's UID is **3014** (following the pattern: flag00=3000, flag01=3001, ...,
 
 **Steps:**
 
-Start GDB:
+Start GDB and set breakpoints for ptrace and getuid:
 
 ```bash
 gdb /bin/getflag
 ```
 
-Set up catchpoint for ptrace and breakpoint for getuid:
-
 ```gdb
-(gdb) catch syscall ptrace
-Catchpoint 1 (syscall 'ptrace' [26])
+(gdb) break ptrace
+Breakpoint 1 at 0x8048540
 (gdb) break getuid
 Breakpoint 2 at 0x80484b0
-```
-
-Run the program:
-
-```gdb
 (gdb) run
 Starting program: /bin/getflag 
 
-Catchpoint 1 (call to syscall ptrace), 0xb7fdd428 in __kernel_vsyscall ()
-```
-
-Bypass the anti-debugging check:
-
-```gdb
-(gdb) set $eax=0
-(gdb) continue
-Continuing.
-
-Catchpoint 1 (returned from syscall ptrace), 0xb7fdd428 in __kernel_vsyscall ()
-```
-
-Force ptrace to return our value:
-
-```gdb
-(gdb) return (int)3014
+Breakpoint 1, 0xb7f146d0 in ptrace () from /lib/i386-linux-gnu/libc.so.6
+(gdb) return (int)0
 Make selected stack frame return now? (y or n) y
-#0  0xb7f14713 in ptrace () from /lib/i386-linux-gnu/libc.so.6
+#0  0x0804898e in main ()
 (gdb) continue
 Continuing.
 
 Breakpoint 2, 0xb7ee4cc0 in getuid () from /lib/i386-linux-gnu/libc.so.6
-```
-
-Now at the getuid breakpoint, fake the UID:
-
-```gdb
 (gdb) return (int)3014
 Make selected stack frame return now? (y or n) y
 #0  0x08048b02 in main ()
 (gdb) continue
 Continuing.
 Check flag.Here is your token : 7QiHafiNa3HVozsaXkawuYrTstxbpABHD8CPnHJ
-[Inferior 1 (process 2616) exited normally]
+[Inferior 1 (process 1999) exited normally]
 ```
 
 **Success!** The final token is: `7QiHafiNa3HVozsaXkawuYrTstxbpABHD8CPnHJ`
